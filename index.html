@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Unicorn Quest</title>
+  <style>
+    body {
+      background-color: #b30000;
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .code-inputs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 30px;
+    }
+    .code-inputs input {
+      width: 40px;
+      height: 50px;
+      font-size: 24px;
+      text-align: center;
+      background-color: white;
+      color: black;
+      border: none;
+      border-radius: 5px;
+    }
+    #error-message {
+      color: white;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Ophelia and Audrina, you've been chosen to go on a quest.</h2>
+    <p>At the end of the journey is a prize that can only be unlocked by entering the correct 7 digit code below.</p>
+    <p>Knowledge and wits are key.</p>
+    <p><strong>Here's your first clue:</strong></p>
+    <p><em>The journey begins where red stands tall,<br>
+    Watching the corner, guarding it all.<br>
+    Behind its back, your first key hides,<br>
+    Where ninety-seven and one twenty-six collide.<br>
+    Take a breath and take a peek—<br>
+    The hunt ahead is not for the meek.</em></p>
+
+    <div class="code-inputs">
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+    </div>
+
+    <button onclick="checkCode()" style="margin-top: 20px; padding: 10px 20px; font-size: 16px;">Unlock</button>
+
+    <div id="error-message"></div>
+  </div>
+
+  <script>
+    const correctCode = '8425936';
+
+    function checkCode() {
+      const inputs = document.querySelectorAll('.code-inputs input');
+      let enteredCode = '';
+      inputs.forEach(input => enteredCode += input.value);
+
+      if (enteredCode === correctCode) {
+        window.location.href = 'congratulations.html';
+      } else {
+        document.getElementById('error-message').textContent = 'Incorrect code. Try again.';
+      }
+    }
+  </script>
+</body>
+</html>
