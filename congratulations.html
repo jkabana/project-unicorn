@@ -11,14 +11,30 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
       padding: 50px;
+      overflow-x: hidden;
     }
     .container {
       max-width: 600px;
       margin: 0 auto;
     }
     h1 {
-      font-size: 48px;
+      font-size: 36px;
       margin-bottom: 20px;
+      animation: pulseGlow 2s infinite;
+    }
+    @keyframes pulseGlow {
+      0% {
+        text-shadow: 0 0 5px white, 0 0 10px white;
+        transform: scale(1);
+      }
+      50% {
+        text-shadow: 0 0 15px white, 0 0 25px white;
+        transform: scale(1.05);
+      }
+      100% {
+        text-shadow: 0 0 5px white, 0 0 10px white;
+        transform: scale(1);
+      }
     }
     p {
       font-size: 20px;
@@ -28,9 +44,17 @@
       height: auto;
       margin: 20px 0;
     }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
   </style>
 </head>
 <body>
+  <canvas id="confetti-canvas"></canvas>
   <div class="container">
     <h1>CONGRATULATIONS!</h1>
     <div class="image-wrapper">
@@ -39,5 +63,49 @@
     </div>
     <p>We're going to Epic Universe AND Legoland! (And Nikki is coming, too!)</p>
   </div>
+
+  <script>
+    // Confetti animation
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const pieces = Array.from({ length: 100 }, () => {
+      return {
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        size: Math.random() * 6 + 4,
+        speed: Math.random() * 3 + 2,
+        color: `hsl(${Math.random() * 360}, 70%, 60%)`,
+        rotation: Math.random() * 360,
+      };
+    });
+
+    function update() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let p of pieces) {
+        p.y += p.speed;
+        p.rotation += 5;
+        if (p.y > canvas.height) {
+          p.y = -p.size;
+          p.x = Math.random() * canvas.width;
+        }
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rotation * Math.PI) / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+        ctx.restore();
+      }
+      requestAnimationFrame(update);
+    }
+
+    update();
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
 </body>
 </html>
