@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,13 +20,14 @@
     .code-inputs {
       display: flex;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
       margin-top: 30px;
+      flex-wrap: nowrap;
     }
     .code-inputs input {
-      width: 40px;
-      height: 50px;
-      font-size: 24px;
+      width: 32px;
+      height: 48px;
+      font-size: 22px;
       text-align: center;
       background-color: white;
       color: black;
@@ -81,6 +83,22 @@
         document.getElementById('error-message').textContent = 'Incorrect code. Try again.';
       }
     }
+
+    // Auto-focus and backspace navigation logic
+    const inputs = document.querySelectorAll('.code-inputs input');
+    inputs.forEach((input, index) => {
+      input.addEventListener('input', () => {
+        if (input.value.length === 1 && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+      });
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && input.value === '' && index > 0) {
+          inputs[index - 1].focus();
+        }
+      });
+    });
   </script>
 </body>
 </html>
